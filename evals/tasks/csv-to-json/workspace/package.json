@@ -1,0 +1,5 @@
+{
+  "name": "csv-to-json",
+  "private": true,
+  "type": "module"
+}

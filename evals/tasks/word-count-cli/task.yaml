@@ -1,0 +1,16 @@
+id: word-count-cli
+title: A small wc clone with JSON output
+difficulty: medium
+tags: [node, cli, files]
+prompt: |
+  Create wc.js: `node wc.js <file>` prints one line of JSON with counts for that file, for example
+  {"lines":3,"words":7,"chars":40}
+  - lines: the number of newline characters
+  - words: the number of runs of non-whitespace characters
+  - chars: the number of characters, not bytes ("é" counts as 1)
+  If the file does not exist, print an error message to stderr and exit with code 1.
+  There is a sample file in samples/poem.txt.
+checks:
+  - name: counts and errors
+    type: command
+    run: node --test eval_tests/wc.test.js

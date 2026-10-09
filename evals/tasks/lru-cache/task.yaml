@@ -1,0 +1,18 @@
+id: lru-cache
+title: Implement an LRU cache class from a spec
+difficulty: hard
+tags: [implement, data-structures]
+prompt: |
+  Create src/lru.js exporting a class `LRUCache`:
+  - `new LRUCache(capacity)`: capacity must be a positive integer, otherwise throw a RangeError
+  - `get(key)`: the value, or `undefined` if absent; marks the key as most recently used
+  - `set(key, value)`: inserts or updates and marks the key as most recently used; when the cache
+    then holds more than `capacity` keys, evict the least recently used one
+  - `has(key)`: whether the key is present, without changing its recency
+  - `delete(key)`: removes the key
+  - a `size` getter: the number of keys held
+  Values can be anything, including 0, "" and null.
+checks:
+  - name: LRU behaviour
+    type: command
+    run: node --test eval_tests/lru.test.js

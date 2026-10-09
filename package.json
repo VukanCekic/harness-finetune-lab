@@ -1,0 +1,30 @@
+{
+  "name": "harness-finetune-lab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evals, baselines and a QLoRA fine-tune of a small local model for the custom-harness coding agent.",
+  "type": "module",
+  "scripts": {
+    "eval": "tsx evals/src/cli.ts run",
+    "eval:validate": "tsx evals/src/cli.ts validate",
+    "eval:compare": "tsx evals/src/cli.ts compare",
+    "eval:list": "tsx evals/src/cli.ts list",
+    "eval:sync-tools": "tsx evals/src/syncTools.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"evals/test/**/*.test.ts\"",
+    "check": "npm run typecheck && npm test"
+  },
+  "engines": {
+    "node": ">=20.3"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.6",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

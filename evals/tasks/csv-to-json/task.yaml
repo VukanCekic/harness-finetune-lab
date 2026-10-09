@@ -1,0 +1,16 @@
+id: csv-to-json
+title: Convert CSV with quoted fields to JSON
+difficulty: medium
+tags: [node, parsing, files]
+prompt: |
+  Write convert.js. `node convert.js` reads data/people.csv and writes data/people.json:
+  a JSON array with one object per row, keys taken from the header row, and `age` as a number.
+  Fields may be wrapped in double quotes, and quoted fields may contain commas.
+  Run it once so data/people.json exists.
+checks:
+  - name: people.json was produced
+    type: file_exists
+    path: data/people.json
+  - name: converts this CSV and one it never saw
+    type: command
+    run: node eval_tests/check.js

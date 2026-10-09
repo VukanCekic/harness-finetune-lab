@@ -1,0 +1,11 @@
+id: fix-off-by-one
+title: Fix a failing test without touching it
+difficulty: easy
+tags: [debug, tests]
+prompt: |
+  `npm test` fails. Find the bug in the source code and fix it. Do not change the tests.
+checks:
+  # hidden/ restores the original test file, so editing the test cannot pass.
+  - name: tests pass
+    type: command
+    run: node --test test/range.test.js

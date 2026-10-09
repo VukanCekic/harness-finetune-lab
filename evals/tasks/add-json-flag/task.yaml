@@ -1,0 +1,12 @@
+id: add-json-flag
+title: Add a flag to an existing CLI without breaking it
+difficulty: medium
+tags: [feature, cli, regression]
+prompt: |
+  Add a `--json` flag to the `list` command of todo.js.
+  `node todo.js list --json` prints the todos as a JSON array of objects with `id`, `title` and `done`,
+  instead of the text lines. Without the flag, the output must stay exactly as it is now.
+checks:
+  - name: --json works and the text output is unchanged
+    type: command
+    run: node --test eval_tests/todo.test.js

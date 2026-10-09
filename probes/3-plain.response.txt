@@ -1,0 +1,29 @@
+{
+  "id": "chatcmpl-pzatj9w92rmwbgvjvwiuwf",
+  "object": "chat.completion",
+  "created": 1791545862,
+  "model": "qwen3-8b",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Hello! 😊 How can I assist you today?",
+        "reasoning_content": "Okay, the user said \"Say hi\". That's pretty straightforward. I need to respond with a friendly greeting.\n\nFirst, I should make sure to acknowledge their message. Maybe start with something like \"Hello!\" or \"Hi there!\" to be polite.\n\nI should keep it simple and positive. The user might just want a quick reply, so no need for long sentences. \n\nAlso, maybe add an emoji to make it more friendly. Like a smiley face 😊. That's common in casual conversations.\n\nWait, but the user might not expect anything too elaborate. Let me check if there are any other considerations. No, I think that's all. Just a simple, cheerful response should work.\n",
+        "tool_calls": []
+      },
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 158,
+    "total_tokens": 168,
+    "completion_tokens_details": {
+      "reasoning_tokens": 141
+    }
+  },
+  "stats": {},
+  "system_fingerprint": "qwen3-8b"
+}

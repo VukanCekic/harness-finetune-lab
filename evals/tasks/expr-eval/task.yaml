@@ -1,0 +1,18 @@
+id: expr-eval
+title: Write an arithmetic expression parser, no eval
+difficulty: hard
+tags: [implement, parsing]
+prompt: |
+  Create src/calc.js exporting a function `evaluate(expression)` that computes arithmetic expressions:
+  - numbers: integers and decimals (2, 3.75)
+  - the operators + - * / with the usual precedence (* and / before + and -), left to right
+  - parentheses, unary minus (-3, -(2 + 1), 2 * -3) and any whitespace
+  Throw an Error for malformed input, e.g. "2 +", "(1", "1)", "2 3", "abc" or "".
+  Do not use eval, Function or any library.
+checks:
+  - name: evaluates and rejects correctly
+    type: command
+    run: node --test eval_tests/calc.test.js
+  - name: no eval or Function
+    type: command
+    run: '! grep -nE "\beval\s*\(|Function\s*\(" src/calc.js'

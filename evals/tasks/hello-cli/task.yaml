@@ -1,0 +1,19 @@
+id: hello-cli
+title: Greeting CLI from scratch
+difficulty: easy
+tags: [node, cli, create]
+prompt: |
+  Create a Node.js script greet.js in the project root.
+  - `node greet.js Ada` prints exactly `Hello, Ada!`
+  - `node greet.js` with no argument prints exactly `Hello, world!`
+  - several arguments are joined with a space: `node greet.js Ada Lovelace` prints `Hello, Ada Lovelace!`
+checks:
+  - name: one name
+    type: command
+    run: test "$(node greet.js Ada)" = "Hello, Ada!"
+  - name: no name
+    type: command
+    run: test "$(node greet.js)" = "Hello, world!"
+  - name: several words
+    type: command
+    run: test "$(node greet.js Ada Lovelace)" = "Hello, Ada Lovelace!"

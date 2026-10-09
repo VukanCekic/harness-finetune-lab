@@ -1,0 +1,12 @@
+id: checkout-bugs
+title: Two bugs in different files behind one failing test
+difficulty: hard
+tags: [debug, multi-file, tests]
+prompt: |
+  The checkout total is wrong and `npm test` fails. Find the root cause and fix it in the source code.
+  Do not change the tests.
+checks:
+  # hidden/ restores test/cart.test.js and adds cases the agent never saw.
+  - name: visible and hidden tests pass
+    type: command
+    run: node --test test/cart.test.js eval_tests/checkout.test.js

@@ -1,0 +1,16 @@
+id: callback-to-promise
+title: Refactor a callback API to async/await
+difficulty: medium
+tags: [refactor, async]
+prompt: |
+  Convert `loadConfig` in src/config.js from a callback API to a promise-based async function:
+  `loadConfig(file)` returns a Promise that resolves to the config, and rejects when the file is
+  missing or is not valid JSON. Keep the defaults it fills in. Update main.js to use it with await.
+  `node main.js` must still print `listening on localhost:8080`.
+checks:
+  - name: main.js output unchanged
+    type: command
+    run: test "$(node main.js)" = "listening on localhost:8080"
+  - name: promise API
+    type: command
+    run: node --test eval_tests/config.test.js

@@ -1,0 +1,33 @@
+# One file decides everything that must stay fixed between runs, so the only
+# thing that changes from row to row in the results table is the model.
+
+harness:
+  # The coding agent under test. HARNESS_DIR overrides it.
+  dir: D:/code/coding-harness
+
+# Held identical for every model.
+defaults:
+  # The smallest context any model here is served with (LM Studio: Qwen3-8B loaded at 40960).
+  context_window: 40000
+  timeout_s: 300
+  max_steps: 40
+  trials: 3
+
+# Rows of the results table. Run one with: npm run eval -- --model <name>
+models:
+  deepseek-v4.1-flash:
+    backend: remote
+    model: deepseek/deepseek-v4.1-flash
+    notes: Teacher / row 1, via OpenRouter
+
+  qwen3-8b:
+    backend: local
+    model: qwen3-8b
+    base_url: http://localhost:1234/v1
+    notes: Base model / row 2, LM Studio, Qwen/Qwen3-8B-GGUF Q8_0, thinking on
+
+  # Row 3 goes here once the fine-tune is served, e.g.
+  # qwen3-8b-ft:
+  #   backend: local
+  #   model: qwen3-8b-harness-ft
+  #   base_url: http://localhost:1234/v1

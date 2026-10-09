@@ -1,0 +1,15 @@
+id: slugify
+title: Implement a function from a spec
+difficulty: medium
+tags: [implement, strings]
+prompt: |
+  Create src/slugify.js exporting a function `slugify(text)` that turns a title into a URL slug:
+  - lowercase
+  - accented letters become their plain ASCII letter (é -> e, Ü -> u)
+  - every run of characters that are not a-z or 0-9 becomes a single hyphen
+  - no hyphen at the start or the end
+  Examples: slugify("Hello, World!") === "hello-world", slugify("  Crème Brûlée  ") === "creme-brulee".
+checks:
+  - name: slugify spec
+    type: command
+    run: node --test eval_tests/slugify.test.js

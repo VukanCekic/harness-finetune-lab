@@ -1,0 +1,17 @@
+id: rename-symbol
+title: Rename a function across files
+difficulty: easy
+tags: [refactor, multi-file]
+prompt: |
+  Rename the function `getUsr` to `getUser` everywhere in this project.
+  Its behaviour must not change, and `node main.js` must print the same output as before.
+checks:
+  - name: old name is gone
+    type: command
+    run: "! grep -rn getUsr --include=*.js --exclude-dir=node_modules --exclude-dir=.agents ."
+  - name: main.js output unchanged
+    type: command
+    run: test "$(node main.js)" = "Ada, Grace, unknown"
+  - name: getUser works
+    type: command
+    run: node --test eval_tests/users.test.js

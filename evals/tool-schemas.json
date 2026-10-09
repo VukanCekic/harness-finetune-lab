@@ -1,0 +1,304 @@
+{
+  "harness_commit": "f552961",
+  "tools": {
+    "plan_task": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "type": "string",
+          "description": "The feature, bugfix, or refactoring goal to plan out. Quote the user's constraints exactly."
+        },
+        "context": {
+          "type": "string",
+          "description": "Optional background or constraints from the user conversation."
+        }
+      },
+      "required": [
+        "goal"
+      ]
+    },
+    "work_task": {
+      "type": "object",
+      "properties": {
+        "plan_id": {
+          "type": "string",
+          "description": "The plan_id returned by plan_task. Defaults to the newest plan."
+        },
+        "plan": {
+          "type": "string",
+          "description": "Only when there is no plan_task plan: the plan text to execute. It is stored and given a plan_id."
+        },
+        "instructions": {
+          "type": "string",
+          "description": "Optional extra instructions for this run."
+        }
+      }
+    },
+    "review_task": {
+      "type": "object",
+      "properties": {
+        "plan_id": {
+          "type": "string",
+          "description": "The plan_id to review against. Defaults to the newest plan."
+        },
+        "goal": {
+          "type": "string",
+          "description": "Only when there is no stored plan: the goal to verify."
+        },
+        "acceptance_criteria": {
+          "type": "string",
+          "description": "Optional extra requirements or test expectations to check."
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The self-contained exploration question or task."
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "bash": {
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": "string",
+          "description": "The shell command to run"
+        }
+      },
+      "required": [
+        "command"
+      ]
+    },
+    "read_file": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path to the file to read"
+        },
+        "offset": {
+          "type": "number",
+          "description": "Optional line number (1-based) to start reading from"
+        },
+        "limit": {
+          "type": "number",
+          "description": "Optional maximum number of lines to read"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "grep": {
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "Regular expression to search for"
+        },
+        "path": {
+          "type": "string",
+          "description": "File or directory to search (default: the working directory)"
+        },
+        "glob": {
+          "type": "string",
+          "description": "Only search files matching this glob, e.g. '*.ts' or 'src/**/*.test.ts'"
+        },
+        "ignore_case": {
+          "type": "boolean",
+          "description": "Case-insensitive match"
+        },
+        "max_results": {
+          "type": "number",
+          "description": "Stop after this many matching lines (default 200)"
+        }
+      },
+      "required": [
+        "pattern"
+      ]
+    },
+    "glob": {
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "Glob pattern"
+        },
+        "path": {
+          "type": "string",
+          "description": "Directory to search from (default: the working directory)"
+        }
+      },
+      "required": [
+        "pattern"
+      ]
+    },
+    "write_file": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path to the file to create or overwrite"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content to write into the file"
+        }
+      },
+      "required": [
+        "path",
+        "content"
+      ]
+    },
+    "str_replace": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Path to the file to modify"
+        },
+        "old_str": {
+          "type": "string",
+          "description": "Exact text to replace"
+        },
+        "new_str": {
+          "type": "string",
+          "description": "Replacement text"
+        },
+        "allow_multi_edit": {
+          "type": "boolean",
+          "description": "Set to true to replace all occurrences if old_str matches more than once"
+        }
+      },
+      "required": [
+        "path",
+        "old_str",
+        "new_str"
+      ]
+    },
+    "write_todos": {
+      "type": "object",
+      "properties": {
+        "todos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The task, imperative: 'Fix the parser'"
+              },
+              "activeForm": {
+                "type": "string",
+                "description": "Present continuous: 'Fixing the parser'"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "in_progress",
+                  "done"
+                ]
+              }
+            },
+            "required": [
+              "content",
+              "activeForm",
+              "status"
+            ]
+          }
+        }
+      },
+      "required": [
+        "todos"
+      ]
+    },
+    "read_skill": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the skill to open"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "ask_user": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "One clear question"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional suggested answers; the user may still type their own"
+        }
+      },
+      "required": [
+        "question"
+      ]
+    },
+    "browser": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "open",
+            "snapshot",
+            "click",
+            "type",
+            "press",
+            "wait",
+            "eval",
+            "close"
+          ],
+          "description": "Action to perform"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL for 'open'"
+        },
+        "ref": {
+          "type": "string",
+          "description": "Element ref from snapshot (e.g. 'e1')"
+        },
+        "text": {
+          "type": "string",
+          "description": "Text to type"
+        },
+        "key": {
+          "type": "string",
+          "description": "Key to press (e.g. 'Enter')"
+        },
+        "ms": {
+          "type": "number",
+          "description": "Milliseconds to wait"
+        },
+        "js": {
+          "type": "string",
+          "description": "JavaScript to evaluate"
+        },
+        "command": {
+          "type": "string",
+          "description": "Optional shorthand (e.g. 'open https://...', 'snapshot', 'click e1', 'type e1 text', 'press Enter')"
+        }
+      }
+    }
+  },
+  "aliases": {
+    "string_replace": "str_replace"
+  }
+}

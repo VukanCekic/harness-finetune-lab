@@ -1,0 +1,4 @@
+node_modules/
+.env
+# Per-trial workspaces and logs are big; summaries are committed.
+evals/results/*/trials/
