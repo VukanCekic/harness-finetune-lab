@@ -1,0 +1,87 @@
+{
+  "model": "deepseek-v4.1-flash",
+  "profile": {
+    "backend": "remote",
+    "model": "deepseek/deepseek-v4.1-flash",
+    "notes": "Teacher / row 1, via OpenRouter",
+    "sampling": {
+      "temperature": 0.6,
+      "seed": 20261009
+    },
+    "thinking": "default",
+    "provider": [
+      "gmicloud"
+    ]
+  },
+  "harness": {
+    "dir": "D:/code/coding-harness",
+    "commit": "e694374",
+    "dirty": false,
+    "state": ""
+  },
+  "defaults": {
+    "context_window": 32768,
+    "timeout_s": 1800,
+    "max_steps": 40,
+    "max_tokens": 8192,
+    "max_turn_tokens": 60000,
+    "trials": 3
+  },
+  "trials": 1,
+  "concurrency": 4,
+  "tasks": [
+    "add-json-flag",
+    "callback-to-promise",
+    "checkout-bugs",
+    "csv-to-json",
+    "expr-eval",
+    "fix-off-by-one",
+    "hello-cli",
+    "lru-cache",
+    "rename-symbol",
+    "slugify",
+    "word-count-cli"
+  ],
+  "started": "2026-10-12T14:24:39.054Z",
+  "fingerprint": "ca209cb0fa5fe61e",
+  "conditions": {
+    "backend": "remote",
+    "model": "deepseek/deepseek-v4.1-flash",
+    "sampling": {
+      "temperature": 0.6,
+      "seed": 20261009
+    },
+    "thinking": "default",
+    "provider": [
+      "gmicloud"
+    ],
+    "max_tokens": 8192,
+    "max_turn_tokens": 60000,
+    "max_steps": 40,
+    "context_window": 32768,
+    "timeout_s": 1800,
+    "unpinned": [],
+    "lab": {
+      "commit": "dcb761a",
+      "dirty": true
+    },
+    "tasks": {
+      "add-json-flag": "be83af9be0e45ff5",
+      "callback-to-promise": "50c126eb49a54fd0",
+      "checkout-bugs": "b872f626734e5ec5",
+      "csv-to-json": "f8867cb716957879",
+      "expr-eval": "1ab29cba2a24c61d",
+      "fix-off-by-one": "d7a7c1a48869fd08",
+      "hello-cli": "d05ac734b57873dd",
+      "lru-cache": "c223fb58017364fc",
+      "rename-symbol": "b6b80efb681ce557",
+      "slugify": "cbf672cf07156027",
+      "word-count-cli": "f3d7a93a41b28aea"
+    },
+    "runner": "3e41e1c85042b0b6",
+    "node": "v24.18.0",
+    "git": "git version 2.54.0.windows.1",
+    "os": "Windows_NT 10.0.26200 x64",
+    "lmstudio": null
+  }
+}
