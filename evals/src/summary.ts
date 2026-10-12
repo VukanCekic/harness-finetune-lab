@@ -345,6 +345,27 @@ export function toMarkdown(summary: Summary, results: TrialResult[]): string {
 
 // ------------------------------------------------------------------ compare
 
+/**
+ * What differs between runs other than the model itself. Rows of a results
+ * table are only about the models if the tasks, the budgets and the harness
+ * were the same, so a run from an older runner (no conditions recorded), a
+ * different harness commit, edited task files or other budgets is called out.
+ */
+export function incomparable(summaries: Summary[]): string[] {
+  if (summaries.length < 2) return [];
+  const out: string[] = [];
+  const unknown = summaries.filter((s) => !s.conditions).map((s) => s.model);
+  if (unknown.length > 0) out.push(`${unknown.join(", ")}: made by an older runner, so its conditions are unknown`);
+  if (new Set(summaries.map((s) => s.harness?.commit)).size > 1) {
+    out.push(`harness commits differ (${summaries.map((s) => `${s.model} ${s.harness?.commit}`).join(", ")})`);
+  }
+  const known = summaries.filter((s) => s.conditions);
+  if (new Set(known.map((s) => JSON.stringify(s.conditions!.tasks))).size > 1) out.push("the task files differ (a task was edited or the task sets differ)");
+  const budget = (s: Summary) => JSON.stringify([s.conditions!.max_steps, s.conditions!.max_tokens, s.conditions!.max_turn_tokens, s.conditions!.context_window]);
+  if (new Set(known.map(budget)).size > 1) out.push("the budgets differ (max_steps, max_tokens, max_turn_tokens or context_window)");
+  return out;
+}
+
 const rates = (s: Summary): Record<string, number> =>
   Object.fromEntries(s.tasks.filter((t) => t.pass_rate !== null).map((t) => [t.task, t.pass_rate as number]));
 
@@ -373,6 +394,8 @@ export function comparison(summaries: Summary[]): string {
   const warnings = summaries.flatMap((s) => (s.conditions?.unpinned?.length ? [`${s.model}: unpinned ${s.conditions.unpinned.join(", ")}`] : []));
   const mixed = new Set(summaries.map((s) => s.overall.k)).size > 1;
   const taskSets = new Set(summaries.map((s) => Object.keys(rates(s)).sort().join(",")));
+  const differing = incomparable(summaries);
+  if (differing.length > 0) lines.push("", `> **These runs were not made under the same conditions - ${differing.join("; ")}.** Differences between rows may not be about the models.`);
   if (warnings.length > 0) lines.push("", `> **Unpinned run conditions** - ${warnings.join("; ")}. These rows are not comparable.`);
   if (mixed) lines.push("", "> The runs have different numbers of trials per task: compare pass@1, not pass^k.");
   if (taskSets.size > 1) lines.push("", "> The runs do not cover the same tasks: the paired difference uses only the shared ones.");

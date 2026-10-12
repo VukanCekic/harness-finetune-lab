@@ -204,3 +204,22 @@ test("attempts a resume replaced stay in the report, so an exclusion cannot disa
   assert.match(md, /- \*\*b\*\* #2: timeout_generation\n/);
   assert.doesNotMatch(toMarkdown(summarise(results, meta), results), /Earlier attempts/);
 });
+
+test("compare says so when runs were not made under the same conditions", () => {
+  const conditions = { tasks: { a: "h1" }, max_steps: 40, max_tokens: 8192, max_turn_tokens: 60000, context_window: 32768, unpinned: [] } as any;
+  const run = (model: string, over: any = {}, harness = meta.harness) =>
+    summarise([trial("a", 1, true), trial("b", 1, false)], { ...meta, model, harness, conditions: { ...conditions, ...over } });
+  const base = run("base");
+
+  assert.doesNotMatch(comparison([base, run("tuned")]), /not made under the same conditions/, "same everything but the model");
+
+  const old = summarise([trial("a", 1, true)], { ...meta, model: "old", harness: { ...meta.harness, commit: "f552961" } });
+  const mixed = comparison([old, base]);
+  assert.match(mixed, /not made under the same conditions/);
+  assert.match(mixed, /old: made by an older runner, so its conditions are unknown/);
+  assert.match(mixed, /harness commits differ \(old f552961, base abc1234\)/);
+
+  assert.match(comparison([base, run("edited", { tasks: { a: "h2" } })]), /the task files differ/);
+  assert.match(comparison([base, run("other", { max_tokens: 4096 })]), /the budgets differ/);
+  assert.match(comparison([base, run("newer", {}, { ...meta.harness, commit: "def5678" })]), /harness commits differ \(base abc1234, newer def5678\)/);
+});
