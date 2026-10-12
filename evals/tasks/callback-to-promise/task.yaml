@@ -10,7 +10,12 @@ prompt: |
 checks:
   - name: main.js output unchanged
     type: command
+    guard: true
     run: test "$(node main.js)" = "listening on localhost:8080"
+  # The prompt asks for await in main.js. Any use of it will do; the guard above holds the behaviour.
+  - name: main.js uses await
+    type: command
+    run: grep -qw await main.js
   - name: promise API
     type: command
-    run: node --test eval_tests/config.test.js
+    run: node --test eval_tests/config.test.mjs

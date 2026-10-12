@@ -10,9 +10,13 @@ prompt: |
   Throw an Error for malformed input, e.g. "2 +", "(1", "1)", "2 3", "abc" or "".
   Do not use eval, Function or any library.
 checks:
-  - name: evaluates and rejects correctly
+  # eval and new Function throw EvalError under this flag, however they are spelled or reached (it also
+  # applies to the processes --test starts), so no text search for them is needed.
+  - name: evaluates and rejects correctly, with eval and Function disabled
     type: command
-    run: node --test eval_tests/calc.test.js
-  - name: no eval or Function
+    run: node --disallow-code-generation-from-strings --test eval_tests/calc.test.mjs
+  # The flag covers neither node:vm nor a child process (which would start a node without it). An expression
+  # evaluator needs neither. The file must exist, or this passes with no work done.
+  - name: does not use vm or a child process
     type: command
-    run: '! grep -nE "\beval\s*\(|Function\s*\(" src/calc.js'
+    run: 'test -f src/calc.js && ! grep -nE "node:vm|require\(.vm.\)|from .vm.|child_process|execSync|spawnSync" src/calc.js'

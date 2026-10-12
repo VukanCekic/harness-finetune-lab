@@ -15,4 +15,4 @@ prompt: |
 checks:
   - name: LRU behaviour
     type: command
-    run: node --test eval_tests/lru.test.js
+    run: node --test eval_tests/lru.test.mjs

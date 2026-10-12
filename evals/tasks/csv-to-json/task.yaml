@@ -13,4 +13,4 @@ checks:
     path: data/people.json
   - name: converts this CSV and one it never saw
     type: command
-    run: node eval_tests/check.js
+    run: node eval_tests/check.mjs

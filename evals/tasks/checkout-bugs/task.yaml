@@ -6,7 +6,7 @@ prompt: |
   The checkout total is wrong and `npm test` fails. Find the root cause and fix it in the source code.
   Do not change the tests.
 checks:
-  # hidden/ restores test/cart.test.js and adds cases the agent never saw.
+  # hidden/ restores test/cart.test.mjs and adds cases the agent never saw.
   - name: visible and hidden tests pass
     type: command
-    run: node --test test/cart.test.js eval_tests/checkout.test.js
+    run: node --test test/cart.test.mjs eval_tests/checkout.test.mjs

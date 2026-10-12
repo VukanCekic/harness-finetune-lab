@@ -12,4 +12,4 @@ prompt: |
 checks:
   - name: slugify spec
     type: command
-    run: node --test eval_tests/slugify.test.js
+    run: node --test eval_tests/slugify.test.mjs

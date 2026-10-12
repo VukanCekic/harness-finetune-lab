@@ -17,3 +17,10 @@ checks:
   - name: several words
     type: command
     run: test "$(node greet.js Ada Lovelace)" = "Hello, Ada Lovelace!"
+  # Names the prompt does not mention: a script that only echoes its three examples fails these.
+  - name: another name
+    type: command
+    run: test "$(node greet.js Grace)" = "Hello, Grace!"
+  - name: another set of words
+    type: command
+    run: test "$(node greet.js Alan Mathison Turing)" = "Hello, Alan Mathison Turing!"

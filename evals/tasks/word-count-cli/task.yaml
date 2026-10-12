@@ -13,4 +13,4 @@ prompt: |
 checks:
   - name: counts and errors
     type: command
-    run: node --test eval_tests/wc.test.js
+    run: node --test eval_tests/wc.test.mjs
