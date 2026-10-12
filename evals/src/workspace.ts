@@ -37,6 +37,17 @@ export function addHidden(task: Task, dir: string): void {
   copyInto(path.join(task.dir, "hidden"), dir);
 }
 
+/** Names of the known-wrong attempts in tasks/<id>/fixtures/. */
+export function fixtureNames(task: Task): string[] {
+  const dir = path.join(task.dir, "fixtures");
+  return fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort() : [];
+}
+
+/** A known-wrong attempt laid over the workspace, as if the agent had written it. */
+export function addFixture(task: Task, name: string, dir: string): void {
+  copyInto(path.join(task.dir, "fixtures", name), dir);
+}
+
 export function addSolution(task: Task, dir: string): boolean {
   const solution = path.join(task.dir, "solution");
   copyInto(solution, dir);

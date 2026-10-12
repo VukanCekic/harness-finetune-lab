@@ -1,5 +1,8 @@
 # One file decides everything that must stay fixed between runs, so the only
 # thing that changes from row to row in the results table is the model.
+# The runner passes these to the harness, then reads back what the harness says
+# it ran with (the session log's meta record): a mismatch is a runner error.
+# Changing anything here after a first published row means re-running every row.
 
 harness:
   # The coding agent under test. HARNESS_DIR overrides it.
@@ -7,27 +10,83 @@ harness:
 
 # Held identical for every model.
 defaults:
-  # The smallest context any model here is served with (LM Studio: Qwen3-8B loaded at 40960).
-  context_window: 40000
-  timeout_s: 300
+  # What the harness manages its prompt to: it compacts at 85% of this, and a reply (max_tokens) comes on top, so
+  # 0.85 x this + max_tokens must fit in the context the server loaded (LM Studio: Qwen3-8B at 40960). The runner warns if not.
+  context_window: 32768
+  # Budgets. They are counted in steps and tokens, not seconds: seconds measure the GPU, not the model.
   max_steps: 40
+  # Per model request (max_tokens). With thinking on, a reply that thinks past it is cut off and counts as that trial's failure.
+  max_tokens: 8192
+  # Completion tokens one trial may generate in all, subagents included.
+  max_turn_tokens: 60000
+  # A safety net, not a budget: a trial it kills is invalid ("timeout_*"), is not graded, and is re-run with --resume.
+  # It must stay out of the budgets' way, or slow trials are dropped instead of graded as failures and the pass rate is
+  # biased toward fast models: Qwen3-8B generates ~65-75 tok/s here, so max_turn_tokens takes ~15 min, and steps and tool
+  # time come on top. The runner warns when timeout_s < max_turn_tokens / 40 tok/s.
+  timeout_s: 1800
   trials: 3
 
 # Rows of the results table. Run one with: npm run eval -- --model <name>
+# `sampling` unset = the server's or provider's own default, which nothing records:
+# the runner warns, and the report says "unpinned". Pin everything before a baseline you want to compare.
 models:
   deepseek-v4.1-flash:
     backend: remote
     model: deepseek/deepseek-v4.1-flash
     notes: Teacher / row 1, via OpenRouter
+    # Provider: GMICloud (fp8). Not DeepSeek's own endpoint: this account's privacy settings and a workspace guardrail
+    # forbid paid endpoints that may train on prompts, and pinning `deepseek` failed with "Paid model training violation".
+    # With default routing the account was served by GMICloud: identified on 2026-10-12 by matching the cost of each of a
+    # trial's 4 calls to the listed per-endpoint prices (0% error, cached tokens included; next best 5.6%). That request
+    # succeeded under the account's policy, so the endpoint is allowed. Pinned so routing cannot move between trials;
+    # fallbacks are off, so if it is down the trial is an infra_error. OpenRouter lists 31 endpoints for this model
+    # (free GET of /api/v1/models/deepseek/deepseek-v4.1-flash/endpoints); GMICloud lists tools, tool_choice, temperature,
+    # top_p and seed, but not top_k, so top_k is not sent. It is fp8: a quantised copy of the model.
+    # Temperature: the same 0.6 as Qwen's thinking mode, so the model is what differs. A choice, not a recommendation.
+    # The model thinks a little by default (~20% of tokens in a probe); max_tokens below counts that thinking.
+    sampling:
+      temperature: 0.6
+      seed: 20261009
+    provider: [gmicloud]
 
   qwen3-8b:
     backend: local
     model: qwen3-8b
     base_url: http://localhost:1234/v1
-    notes: Base model / row 2, LM Studio, Qwen/Qwen3-8B-GGUF Q8_0, thinking on
+    notes: Base model / row 2, LM Studio, Qwen/Qwen3-8B-GGUF Q8_0
+    # Thinking on (the chat template's default), with the Qwen3 model card's values for that mode
+    # (temperature 0.6, top_p 0.95, top_k 20, min_p 0; never greedy). min_p cannot be sent through LM Studio's
+    # API: set Min P to 0 (off) in the model's preset in LM Studio and keep it there for every row.
+    # For thinking off: `thinking: off` (adds /no_think) and the non-thinking values (0.7 / 0.8 / 20 / 0).
+    # Decide between the two by running 11 tasks x 3 trials each way (docs/reviews/2026-10-09-eval-review.md, 5.4 #1).
+    thinking: default
+    sampling:
+      temperature: 0.6
+      top_p: 0.95
+      top_k: 20
+      # A base: trial n uses seed + n - 1. It fixes the sampler, not the run: the prompt holds the working directory and
+      # the clock, and the GPU is not bit-exact, so a repeat is similar, not identical.
+      seed: 20261009
+
+  # The same model with thinking off: /no_think on the wire, and the Qwen3 model card's non-thinking values
+  # (0.7 / 0.8 / 20, min_p 0). Same LM Studio model id, so nothing is reloaded. Check after a first trial that
+  # reasoning_tokens is ~0 in its result.json: the soft switch is documented on the model card but not yet seen working here.
+  qwen3-8b-nothink:
+    backend: local
+    model: qwen3-8b
+    base_url: http://localhost:1234/v1
+    notes: Base model, thinking off / LM Studio, Qwen/Qwen3-8B-GGUF Q8_0
+    thinking: off
+    sampling:
+      temperature: 0.7
+      top_p: 0.8
+      top_k: 20
+      seed: 20261009
 
   # Row 3 goes here once the fine-tune is served, e.g.
   # qwen3-8b-ft:
   #   backend: local
   #   model: qwen3-8b-harness-ft
   #   base_url: http://localhost:1234/v1
+  #   thinking: default
+  #   sampling: { temperature: 0.6, top_p: 0.95, top_k: 20, seed: 20261009 }

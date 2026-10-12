@@ -8,6 +8,7 @@
     "eval": "tsx evals/src/cli.ts run",
     "eval:validate": "tsx evals/src/cli.ts validate",
     "eval:compare": "tsx evals/src/cli.ts compare",
+    "eval:summarize": "tsx evals/src/cli.ts summarize",
     "eval:list": "tsx evals/src/cli.ts list",
     "eval:sync-tools": "tsx evals/src/syncTools.ts",
     "typecheck": "tsc --noEmit",

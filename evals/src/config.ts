@@ -14,21 +14,64 @@ export const TOOL_SCHEMAS_FILE = path.join(EVALS_DIR, "tool-schemas.json");
 
 // ------------------------------------------------------------------ config
 
+/**
+ * What is sent beside the messages. Unset means the server's or provider's own
+ * default, which nothing records - so an unset value is reported as unpinned.
+ */
+const Sampling = z
+  .object({
+    temperature: z.number().min(0).max(2).optional(),
+    top_p: z.number().min(0).max(1).optional(),
+    top_k: z.number().int().min(0).optional(),
+    presence_penalty: z.number().min(-2).max(2).optional(),
+    /** A base seed: trial n uses seed + n - 1, so the trials of one task differ but a run can be repeated. */
+    seed: z.number().int().optional()
+  })
+  .strict();
+export type Sampling = z.infer<typeof Sampling>;
+
 const ModelProfile = z
   .object({
     backend: z.enum(["remote", "local"]),
     model: z.string().min(1),
     base_url: z.string().min(1).optional(),
-    notes: z.string().optional()
+    notes: z.string().optional(),
+    sampling: Sampling.default({}),
+    /** "off" adds Qwen3's /no_think soft switch. Local models only. */
+    thinking: z.enum(["default", "off"]).default("default"),
+    /** OpenRouter upstreams to pin, fallbacks off. Remote models only. */
+    provider: z.array(z.string().min(1)).min(1).optional()
   })
-  .strict();
+  .strict()
+  .superRefine((profile, ctx) => {
+    if (profile.backend !== "local" && profile.thinking === "off") {
+      ctx.addIssue({ code: "custom", path: ["thinking"], message: "the thinking switch is for local models" });
+    }
+    if (profile.backend !== "remote" && profile.provider) {
+      ctx.addIssue({ code: "custom", path: ["provider"], message: "provider routing is an OpenRouter setting" });
+    }
+  });
 export type ModelProfile = z.infer<typeof ModelProfile>;
+
+/** The run conditions this profile leaves to someone else's default. A run with any is not comparable or publishable. */
+export function unpinned(profile: ModelProfile): string[] {
+  const out: string[] = [];
+  const required = profile.backend === "local" ? (["temperature", "top_p", "top_k"] as const) : (["temperature"] as const);
+  for (const key of required) if (profile.sampling[key] === undefined) out.push(`sampling.${key}`);
+  if (profile.backend === "remote" && !profile.provider) out.push("provider");
+  return out;
+}
 
 const Defaults = z
   .object({
     context_window: z.number().int().positive(),
+    /** A safety net, not a budget: a trial it kills is invalid, not a model failure. */
     timeout_s: z.number().int().positive(),
     max_steps: z.number().int().positive(),
+    /** Per model request (max_tokens). */
+    max_tokens: z.number().int().positive(),
+    /** Completion tokens one trial may generate in all, subagents included. */
+    max_turn_tokens: z.number().int().positive(),
     trials: z.number().int().positive()
   })
   .strict();
@@ -54,6 +97,11 @@ export function loadConfig(file = path.join(EVALS_DIR, "eval.config.yaml")): Eva
 // ------------------------------------------------------------------- tasks
 
 const name = z.string().min(1).optional();
+/**
+ * A regression guard: it passes on the untouched workspace by design (the output
+ * must stay as it is). `validate` expects every other check to fail there.
+ */
+const guard = z.boolean().default(false);
 
 const Check = z.discriminatedUnion("type", [
   z
@@ -64,10 +112,11 @@ const Check = z.discriminatedUnion("type", [
       run: z.string().min(1),
       /** Also require this text in stdout. */
       stdout_includes: z.string().optional(),
-      timeout_s: z.number().int().positive().default(60)
+      timeout_s: z.number().int().positive().default(60),
+      guard
     })
     .strict(),
-  z.object({ type: z.literal("file_exists"), name, path: z.string().min(1) }).strict()
+  z.object({ type: z.literal("file_exists"), name, path: z.string().min(1), guard }).strict()
 ]);
 export type Check = z.infer<typeof Check>;
 
@@ -95,6 +144,8 @@ export type Task = z.infer<typeof TaskSpec> & {
  *   workspace/  copied in before the run - the agent sees it
  *   hidden/     copied in after the run, over the agent's files - the agent never sees it
  *   solution/   a reference solution, used only by `validate`
+ *   fixtures/   <name>/ folders of files laid over workspace/ + hidden/ that must FAIL a check:
+ *               known-wrong attempts (`validate` uses them as mutation tests of the checks)
  */
 export function loadTasks(filter?: string[]): Task[] {
   const errors: string[] = [];
