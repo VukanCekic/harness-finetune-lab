@@ -9,4 +9,4 @@ prompt: |
 checks:
   - name: --json works and the text output is unchanged
     type: command
-    run: node --test eval_tests/todo.test.js
+    run: node --test eval_tests/todo.test.mjs

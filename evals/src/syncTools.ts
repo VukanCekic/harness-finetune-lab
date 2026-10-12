@@ -1,6 +1,7 @@
 /**
- * Snapshot the harness's tool schemas into tool-schemas.json, so the validity
- * scorer checks calls against exactly what the model was offered. Re-run it
+ * Snapshot the harness's tool schemas (and which tools each mode offers) into
+ * tool-schemas.json, so the validity scorer checks calls against exactly what
+ * the model was offered. Re-run it
  * whenever the harness's tools change: npm run eval:sync-tools
  */
 import fs from "node:fs";
@@ -31,7 +32,11 @@ for (const [name, tool] of Object.entries<any>(registry.TOOLS_BY_NAME)) {
   if (canonical && canonical !== name) aliases[name] = canonical;
 }
 
-const snapshot: ToolSchemas = { harness_commit: harness.commit, tools, aliases };
+// What the main agent is offered, by mode (a pipeline starts once it calls plan_task): a call to a tool it was not offered is invalid.
+const namesOf = (list: any[]): string[] => list.map((tool) => tool?.schema?.function?.name).filter(Boolean);
+const offered = { default: namesOf(registry.registeredTools), pipeline: namesOf(registry.PIPELINE_TOOLS) };
+
+const snapshot: ToolSchemas = { harness_commit: harness.commit, tools, aliases, offered };
 fs.writeFileSync(TOOL_SCHEMAS_FILE, `${JSON.stringify(snapshot, null, 2)}\n`);
 console.log(`${Object.keys(tools).length} tools from harness ${harness.commit}${harness.dirty ? " (dirty)" : ""} -> ${path.relative(process.cwd(), TOOL_SCHEMAS_FILE)}`);
 console.log(Object.keys(tools).sort().join(", "));

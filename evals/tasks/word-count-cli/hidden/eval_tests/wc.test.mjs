@@ -23,12 +23,18 @@ test("counts the sample", () => {
   assert.deepEqual(JSON.parse(result.stdout), { lines: 5, words: 14, chars: 72 });
 });
 
-test("prints a single line", () => {
-  assert.equal(wc("samples/poem.txt").stdout.trim().split("\n").length, 1);
+test("prints a single line of JSON", () => {
+  const result = wc("samples/poem.txt");
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim().split("\n").length, 1);
+  JSON.parse(result.stdout); // throws unless it is JSON
 });
 
-test("a missing file is an error on stderr with exit code 1", () => {
+test("a missing file is an error on stderr with exit code 1, and a real file is not", () => {
+  // Without this, a script that crashes on every input would pass: any crash exits 1 and writes to stderr.
+  assert.equal(wc("samples/poem.txt").status, 0, "a file that exists must work before a missing one can be an error");
   const result = wc("does-not-exist.txt");
   assert.equal(result.status, 1);
   assert.notEqual(result.stderr.trim(), "");
+  assert.equal(result.stdout.trim(), "", "nothing on stdout for an error");
 });

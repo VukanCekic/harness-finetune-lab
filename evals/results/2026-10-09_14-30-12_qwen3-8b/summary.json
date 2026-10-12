@@ -1,0 +1,176 @@
+{
+  "model": "qwen3-8b",
+  "profile": {
+    "backend": "local",
+    "model": "qwen3-8b",
+    "base_url": "http://localhost:1234/v1",
+    "notes": "Base model / row 2, LM Studio, Qwen/Qwen3-8B-GGUF Q8_0, thinking on"
+  },
+  "harness": {
+    "dir": "D:/code/coding-harness",
+    "commit": "f552961",
+    "dirty": false
+  },
+  "defaults": {
+    "context_window": 40000,
+    "timeout_s": 300,
+    "max_steps": 40,
+    "trials": 3
+  },
+  "started": "2026-10-09T12:30:12.786Z",
+  "finished": "2026-10-09T12:55:39.983Z",
+  "overall": {
+    "tasks": 11,
+    "trials": 11,
+    "k": 1,
+    "pass_at_1": 0.36363636363636365,
+    "pass_at_k": 0.36363636363636365,
+    "pass_pow_k": 0.36363636363636365,
+    "flaky_tasks": 0,
+    "tool_calls": 34,
+    "valid_tool_call_rate": 1,
+    "invalid_by_reason": {},
+    "mean_cost_usd": 0,
+    "total_cost_usd": 0,
+    "p50_duration_ms": 104451,
+    "p95_duration_ms": 300222,
+    "mean_steps": 3.8181818181818183,
+    "timeouts": 3,
+    "run_errors": 3,
+    "global_install_attempts": 0
+  },
+  "tasks": [
+    {
+      "task": "add-json-flag",
+      "difficulty": "medium",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 57091,
+      "mean_steps": 3,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "callback-to-promise",
+      "difficulty": "medium",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 300193,
+      "mean_steps": 10,
+      "mean_cost_usd": null
+    },
+    {
+      "task": "checkout-bugs",
+      "difficulty": "hard",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 124921,
+      "mean_steps": 8,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "csv-to-json",
+      "difficulty": "medium",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": null,
+      "mean_duration_ms": 300217,
+      "mean_steps": 0,
+      "mean_cost_usd": null
+    },
+    {
+      "task": "expr-eval",
+      "difficulty": "hard",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 300222,
+      "mean_steps": 3,
+      "mean_cost_usd": null
+    },
+    {
+      "task": "fix-off-by-one",
+      "difficulty": "easy",
+      "trials": 1,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 78527,
+      "mean_steps": 7,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "hello-cli",
+      "difficulty": "easy",
+      "trials": 1,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 19253,
+      "mean_steps": 2,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "lru-cache",
+      "difficulty": "hard",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 68074,
+      "mean_steps": 2,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "rename-symbol",
+      "difficulty": "easy",
+      "trials": 1,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 104451,
+      "mean_steps": 3,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "slugify",
+      "difficulty": "medium",
+      "trials": 1,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 115203,
+      "mean_steps": 2,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "word-count-cli",
+      "difficulty": "medium",
+      "trials": 1,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 54103,
+      "mean_steps": 2,
+      "mean_cost_usd": 0
+    }
+  ]
+}

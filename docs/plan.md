@@ -25,7 +25,7 @@ Repo: `D:\code\coding-harness`, branch `feat/openai-compatible-provider` (rename
 | Cost comes from `usage.cost` (OpenRouter returns it) | `llm.ts:126`, `record()` | Local servers don't send it. It becomes `null` → ledger records `0`. That is correct for local, but say so in your results table. |
 | Startup hard-fails if `OPENROUTER_API_KEY` is empty | `src/index.ts:415` | Local servers need no key. Must relax this. |
 | Tests replace `globalThis.fetch` and script SSE chunks | `tests/helpers/mock.ts` | A fetch-based client slots into your existing test setup. |
-| `config.contextWindow` defaults to 64k | `src/config.ts:100` | A local 7B with a smaller context will overflow before compaction kicks in. Set `CONTEXT_WINDOW` to match the server's `-c`. |
+| `config.contextWindow` defaults to 64k | `src/config.ts:100` | A local 7B with a smaller context will overflow before compaction kicks in. Set `CONTEXT_WINDOW` to match the server's `-c`. *(Since Phase 1 the local default is 32k; the eval runner sets `context_window` itself, 40000.)* |
 | `reasoningRoundTrip` defaults on | `src/config.ts:115` | Local servers don't understand `reasoning_details`. Drop it at the wire. |
 
 ## 1. Decision to make first: hand-rolled `fetch` vs the `openai` npm package
@@ -123,7 +123,7 @@ Pass the abort signal to `fetch`. Non-2xx: read the body and throw an error that
 - Banner: show the base URL so it's obvious which backend a run used (`ui.banner(...)`).
 - `src/sandbox.ts:150`: add `API_KEY` to the scrubbed env vars.
 - `.env.example` and the env table in `README.md`: document `BASE_URL`, `API_KEY`, `CONTEXT_WINDOW`.
-- Set `REASONING_ROUNDTRIP=0` in your local `.env` for local models.
+- Set `REASONING_ROUNDTRIP=0` in your local `.env` for local models. *(Not needed for evals: the runner ignores the harness's `.env` apart from the API keys, and the local path never produces reasoning details to send back. For DeepSeek the default, on, applies.)*
 
 ### Step 7 — Tests (extend, don't replace)
 Unit tests for the three functions, then one loop test:
@@ -142,12 +142,13 @@ BASE_URL=http://localhost:1234/v1 MODEL=<id> CONTEXT_WINDOW=16000 REASONING_ROUN
 Then run the **same** command with no `BASE_URL` (OpenRouter/DeepSeek) to prove nothing regressed.
 
 ### Done when
-- [ ] `npm run check` green
-- [ ] DeepSeek via OpenRouter works exactly as before
-- [ ] At least one local server completes the hello-world task with a real tool call
-- [ ] Tokens are recorded in the ledger, with cost showing as 0
-- [ ] Notes on wire formats committed under `docs/`
-- [ ] One commit: `feat: OpenAI-compatible provider via BASE_URL`
+Checked 2026-10-12 (the status note at the top says Phase 1 is done; these are what backs it):
+- [x] `npm run check` green - harness: typecheck, lint, 87 tests
+- [ ] DeepSeek via OpenRouter works exactly as before - the OpenRouter path is covered by the mocked tests; not re-run against the live API since Phase 1
+- [x] At least one local server completes the hello-world task with a real tool call - LM Studio + Qwen3-8B, `hello-cli` passed in the 2026-10-09 run
+- [x] Tokens are recorded in the ledger, with cost showing as 0
+- [x] Notes on wire formats committed under `docs/` - `coding-harness/docs/local-backend-wire-format.md`
+- [x] One commit - shipped as `f552961`, with the `LLM_BACKEND` design instead of `BASE_URL`
 
 ---
 

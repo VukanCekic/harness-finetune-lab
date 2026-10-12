@@ -1,0 +1,36 @@
+{
+  "model": "qwen3-8b",
+  "profile": {
+    "backend": "local",
+    "model": "qwen3-8b",
+    "base_url": "http://localhost:1234/v1",
+    "notes": "Base model / row 2, LM Studio, Qwen/Qwen3-8B-GGUF Q8_0, thinking on"
+  },
+  "harness": {
+    "dir": "D:/code/coding-harness",
+    "commit": "f552961",
+    "dirty": false
+  },
+  "defaults": {
+    "context_window": 40000,
+    "timeout_s": 300,
+    "max_steps": 40,
+    "trials": 3
+  },
+  "trials": 1,
+  "concurrency": 1,
+  "tasks": [
+    "add-json-flag",
+    "callback-to-promise",
+    "checkout-bugs",
+    "csv-to-json",
+    "expr-eval",
+    "fix-off-by-one",
+    "hello-cli",
+    "lru-cache",
+    "rename-symbol",
+    "slugify",
+    "word-count-cli"
+  ],
+  "started": "2026-10-09T12:30:12.786Z"
+}

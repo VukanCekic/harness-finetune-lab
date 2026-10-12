@@ -1,5 +1,5 @@
 {
-  "harness_commit": "f552961",
+  "harness_commit": "e694374",
   "tools": {
     "plan_task": {
       "type": "object",
@@ -300,5 +300,33 @@
   },
   "aliases": {
     "string_replace": "str_replace"
+  },
+  "offered": {
+    "default": [
+      "plan_task",
+      "work_task",
+      "review_task",
+      "task",
+      "bash",
+      "read_file",
+      "grep",
+      "glob",
+      "write_file",
+      "str_replace",
+      "write_todos",
+      "read_skill",
+      "ask_user",
+      "browser"
+    ],
+    "pipeline": [
+      "plan_task",
+      "work_task",
+      "review_task",
+      "task",
+      "write_todos",
+      "bash",
+      "read_skill",
+      "ask_user"
+    ]
   }
 }

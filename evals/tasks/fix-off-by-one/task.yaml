@@ -8,4 +8,4 @@ checks:
   # hidden/ restores the original test file, so editing the test cannot pass.
   - name: tests pass
     type: command
-    run: node --test test/range.test.js
+    run: node --test test/range.test.mjs

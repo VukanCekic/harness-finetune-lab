@@ -1,0 +1,281 @@
+{
+  "model": "qwen3-8b-nothink",
+  "profile": {
+    "backend": "local",
+    "model": "qwen3-8b",
+    "base_url": "http://localhost:1234/v1",
+    "notes": "Base model, thinking off / LM Studio, Qwen/Qwen3-8B-GGUF Q8_0",
+    "sampling": {
+      "temperature": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "seed": 20261009
+    },
+    "thinking": "off"
+  },
+  "harness": {
+    "dir": "D:/code/coding-harness",
+    "commit": "e694374",
+    "dirty": false,
+    "state": ""
+  },
+  "defaults": {
+    "context_window": 32768,
+    "timeout_s": 1800,
+    "max_steps": 40,
+    "max_tokens": 8192,
+    "max_turn_tokens": 60000,
+    "trials": 3
+  },
+  "conditions": {
+    "backend": "local",
+    "model": "qwen3-8b",
+    "sampling": {
+      "temperature": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "seed": 20261009
+    },
+    "thinking": "off",
+    "provider": null,
+    "max_tokens": 8192,
+    "max_turn_tokens": 60000,
+    "max_steps": 40,
+    "context_window": 32768,
+    "timeout_s": 1800,
+    "unpinned": [],
+    "lab": {
+      "commit": "dcb761a",
+      "dirty": true
+    },
+    "tasks": {
+      "add-json-flag": "be83af9be0e45ff5",
+      "callback-to-promise": "50c126eb49a54fd0",
+      "checkout-bugs": "b872f626734e5ec5",
+      "csv-to-json": "f8867cb716957879",
+      "expr-eval": "1ab29cba2a24c61d",
+      "fix-off-by-one": "d7a7c1a48869fd08",
+      "hello-cli": "d05ac734b57873dd",
+      "lru-cache": "c223fb58017364fc",
+      "rename-symbol": "b6b80efb681ce557",
+      "slugify": "cbf672cf07156027",
+      "word-count-cli": "f3d7a93a41b28aea"
+    },
+    "runner": "3e41e1c85042b0b6",
+    "node": "v24.18.0",
+    "git": "git version 2.54.0.windows.1",
+    "os": "Windows_NT 10.0.26200 x64",
+    "lmstudio": [
+      {
+        "id": "qwen3-8b",
+        "object": "model",
+        "type": "llm",
+        "publisher": "Qwen",
+        "arch": "qwen3",
+        "compatibility_type": "gguf",
+        "quantization": "Q8_0",
+        "state": "loaded",
+        "max_context_length": 40960,
+        "loaded_context_length": 40960,
+        "capabilities": [
+          "tool_use"
+        ]
+      },
+      {
+        "id": "text-embedding-nomic-embed-text-v1.5",
+        "object": "model",
+        "type": "embeddings",
+        "publisher": "nomic-ai",
+        "arch": "nomic-bert",
+        "compatibility_type": "gguf",
+        "quantization": "Q4_K_M",
+        "state": "not-loaded",
+        "max_context_length": 2048
+      }
+    ]
+  },
+  "started": "2026-10-12T14:04:12.144Z",
+  "finished": "2026-10-12T14:18:42.914Z",
+  "excluded": [],
+  "resumes": 0,
+  "overall": {
+    "tasks": 11,
+    "trials": 11,
+    "invalid_trials": 0,
+    "k": 1,
+    "pass_at_1": 0.18181818181818182,
+    "pass_at_1_ci": {
+      "low": 0,
+      "high": 0.4535614247565199
+    },
+    "trial_pass_rate": 0.18181818181818182,
+    "pass_at_k": 0.18181818181818182,
+    "pass_pow_k": 0.18181818181818182,
+    "flaky_tasks": 0,
+    "by_class": {
+      "passed": 2,
+      "checks_failed": 8,
+      "max_steps": 1
+    },
+    "tool_calls": 503,
+    "valid_tool_call_rate": 1,
+    "tool_call_scope": "all_agents",
+    "tool_errors": 4,
+    "invalid_by_reason": {},
+    "mean_cost_usd": 0,
+    "total_cost_usd": 0,
+    "p50_duration_ms": 17723,
+    "p95_duration_ms": 651080,
+    "mean_steps": 9.181818181818182,
+    "thinking_share": 0.0005109743351527117,
+    "timeouts": 0,
+    "run_errors": 0,
+    "global_install_attempts": 0,
+    "trials_with_escapes": 0
+  },
+  "tasks": [
+    {
+      "task": "add-json-flag",
+      "difficulty": "medium",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 28742,
+      "mean_steps": 4,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "callback-to-promise",
+      "difficulty": "medium",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 651080,
+      "mean_steps": 40,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "checkout-bugs",
+      "difficulty": "hard",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 50279,
+      "mean_steps": 12,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "csv-to-json",
+      "difficulty": "medium",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 15314,
+      "mean_steps": 7,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "expr-eval",
+      "difficulty": "hard",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 34882,
+      "mean_steps": 9,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "fix-off-by-one",
+      "difficulty": "easy",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 17723,
+      "mean_steps": 8,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "hello-cli",
+      "difficulty": "easy",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 6286,
+      "mean_steps": 2,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "lru-cache",
+      "difficulty": "hard",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 14209,
+      "mean_steps": 4,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "rename-symbol",
+      "difficulty": "easy",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 1,
+      "pass_rate": 1,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 11081,
+      "mean_steps": 5,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "slugify",
+      "difficulty": "medium",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 23837,
+      "mean_steps": 5,
+      "mean_cost_usd": 0
+    },
+    {
+      "task": "word-count-cli",
+      "difficulty": "medium",
+      "trials": 1,
+      "invalid": 0,
+      "passes": 0,
+      "pass_rate": 0,
+      "flaky": false,
+      "valid_tool_call_rate": 1,
+      "mean_duration_ms": 11935,
+      "mean_steps": 5,
+      "mean_cost_usd": 0
+    }
+  ]
+}
