@@ -4,10 +4,11 @@
 - 95/95 tests passed today.
 - Local checkout is now `main`, fast-forwarded to `origin/main`. The old branch `feat/eval-review-fixes` is kept (already merged).
 - `.gitignore` now ignores `/*.pdf`, so the personal PDF at the repo root stays out of git.
+- Leftover untracked files (interrupted 12 Oct run's `run.json`, stale compare table) committed and pushed; see Unverified.
 
 **Unverified**
-- The 2026-10-12 Qwen3-8B thinking-on run (`evals/results/2026-10-12_15-29-58_qwen3-8b/`) was interrupted: only `run.json` (plus ignored `trials/`), no summary. Untracked.
-- `evals/results/compare-think-nothink-flash.md` is stale and untracked. It shows the old zero-width interval `[100.0, 100.0]` for DeepSeek.
+- The 2026-10-12 Qwen3-8B thinking-on run (`evals/results/2026-10-12_15-29-58_qwen3-8b/`) was interrupted: only `run.json` (plus ignored `trials/`), no summary. Committed as-is on 2026-11-03 at the user's request, so it is not a finished baseline.
+- `evals/results/compare-think-nothink-flash.md` is stale. It shows the old zero-width interval `[100.0, 100.0]` for DeepSeek. Committed as-is on 2026-11-03 at the user's request: regenerate it with `npm run eval:compare` or delete it before quoting it.
 - README phase table (Phase 2 "in progress", Phase 3 "next"), `docs/plan.md` ("not pushed") and `docs/reviews/2026-10-12-implementation-status.md` ("Nothing is pushed") are stale.
 - Only the unit tests were confirmed today. Typecheck and `eval:validate` were not re-run.
 - `evals/tasks/fix-off-by-one/` has no `fixtures/` (validate reports it as "no fixtures" but does not fail it).
