@@ -6,7 +6,9 @@
 
 harness:
   # The coding agent under test. HARNESS_DIR overrides it.
-  dir: D:/code/coding-harness
+  # Real runs need an absolute path (the harness is started from each trial's temp workspace):
+  # set HARNESS_DIR, or put the absolute path here.
+  dir: ../custom-harness
 
 # Held identical for every model.
 defaults:
@@ -58,7 +60,7 @@ models:
     # (temperature 0.6, top_p 0.95, top_k 20, min_p 0; never greedy). min_p cannot be sent through LM Studio's
     # API: set Min P to 0 (off) in the model's preset in LM Studio and keep it there for every row.
     # For thinking off: `thinking: off` (adds /no_think) and the non-thinking values (0.7 / 0.8 / 20 / 0).
-    # Decide between the two by running 11 tasks x 3 trials each way (docs/reviews/2026-10-09-eval-review.md, 5.4 #1).
+    # Decide between the two by running 11 tasks x 3 trials each way.
     thinking: default
     sampling:
       temperature: 0.6

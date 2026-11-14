@@ -34,7 +34,7 @@ Global installs attempted: 0. Trials with a tool call outside the workspace: 2.
 
 ## Tool calls outside the workspace
 
-- expr-eval #1: other - `bash` C:/Users/vukan/AppData/Local/Temp/t.mjs
-- word-count-cli #1: other - `bash` C:/Users/vukan/AppData/Local/Temp/acc.txt
-- word-count-cli #1: other - `bash` C:/Users/vukan/AppData/Local/Temp/empty.txt
-- word-count-cli #1: other - `bash` C:/Users/vukan/AppData/Local/Temp
+- expr-eval #1: other - `bash` C:/Users/<user>/AppData/Local/Temp/t.mjs
+- word-count-cli #1: other - `bash` C:/Users/<user>/AppData/Local/Temp/acc.txt
+- word-count-cli #1: other - `bash` C:/Users/<user>/AppData/Local/Temp/empty.txt
+- word-count-cli #1: other - `bash` C:/Users/<user>/AppData/Local/Temp
