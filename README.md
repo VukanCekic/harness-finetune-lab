@@ -18,8 +18,7 @@ one, and, next, a QLoRA fine-tune of the small model on the strong model's succe
 | 7 | Compare, write up | |
 
 Rules: never train on eval tasks; change only the model between runs; report honestly, even if the
-fine-tune only beats its own base model. The original plan and its reasoning: [docs/plan.md](docs/plan.md).
-
+fine-tune only beats its own base model.
 ## Layout
 
 ```
@@ -31,7 +30,6 @@ evals/
   tool-schemas.json  snapshot of the harness's tool schemas, for the validity scorer
   results/           one folder per run: summary.md / summary.json committed, trials/ ignored
 probes/              raw LM Studio + Qwen3-8B responses captured while building Phase 1
-docs/plan.md         the full plan
 ```
 
 ## Running the evals
@@ -139,8 +137,7 @@ still runs unsandboxed on this machine.
 | global installs, outside-workspace calls | counted per run |
 
 At 11 tasks the interval is wide (4 of 11 is 36% [2, 70]); a fine-tune's gain of 15 points needs roughly 40
-tasks × 3 trials to be detectable. See [the 2026-10-09 review](docs/reviews/2026-10-09-eval-review.md) and
-[what was done about it](docs/reviews/2026-10-12-implementation-status.md).
+tasks × 3 trials to be detectable.
 
 ### Tasks
 
